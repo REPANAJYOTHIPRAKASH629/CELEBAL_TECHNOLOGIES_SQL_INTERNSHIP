@@ -517,7 +517,8 @@ FROM OrderDetails;
 ```
 
 <hr></hr>
-<strong>Level B Task</strong>
+<hr></hr>
+**Level B Task**
 
 **-- procedures**
 -----------------------
