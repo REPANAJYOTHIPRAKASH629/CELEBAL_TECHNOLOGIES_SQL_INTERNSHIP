@@ -8,7 +8,7 @@ R. JYOTHI PRAKASH
 
 1. List of all customers
 
-SELECT * FROM Customers;
+```SELECT * FROM Customers;```
 
 
 2. list of all customers where company name ending in N
