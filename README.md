@@ -61,19 +61,20 @@ WHERE ProductName LIKE 'A%';
 
 7. List of customers who ever placed an order
 
-```SELECT DISTINCT Customers.*
+```
+SELECT DISTINCT Customers.*
 
 FROM Customers
 
-JOIN Orders ON Customers.CustomerID = Orders.CustomerID;```
-
-
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+```
 
 
 
 8. list of Customers who live in London and have bought chai
 
-```SELECT DISTINCT Customers.*
+```
+SELECT DISTINCT Customers.*
 
 FROM Customers
 
@@ -83,21 +84,23 @@ JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
 
 JOIN Products ON OrderDetails.ProductID = Products.ProductID
 
-WHERE Customers.City = 'London' AND Products.ProductName = 'Chai';```
+WHERE Customers.City = 'London' AND Products.ProductName = 'Chai';
+```
 
 
 9. List of customers who never place an order
 
-```SELECT * FROM Customers
+```
+SELECT * FROM Customers
 
-WHERE CustomerID NOT IN (SELECT CustomerID FROM Orders);```
-
-
+WHERE CustomerID NOT IN (SELECT CustomerID FROM Orders);
+```
 
 
 10. List of customers who ordered Tofu
 
-```SELECT DISTINCT Customers.*
+```
+SELECT DISTINCT Customers.*
 
 FROM Customers
 
@@ -107,25 +110,27 @@ JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
 
 JOIN Products ON OrderDetails.ProductID = Products.ProductID
 
-WHERE Products.ProductName = 'Tofu';```
+WHERE Products.ProductName = 'Tofu';
+```
 
 
 
 11. Details of first order of the system
 
-```SELECT *
-
-FROM Orders
+```
+SELECT * FROM Orders
 
 ORDER BY OrderDate
 
-LIMIT 1;```
+LIMIT 1;
+```
 
 
 
 12. Find the details of most expensive order date
 
-```SELECT Orders.OrderID, Orders.OrderDate, SUM(OrderDetails.UnitPrice * OrderDetails.Quantity) AS TotalAmount
+```
+SELECT Orders.OrderID, Orders.OrderDate, SUM(OrderDetails.UnitPrice * OrderDetails.Quantity) AS TotalAmount
 
 FROM Orders
 
@@ -140,7 +145,8 @@ LIMIT 1;
 
 13. For each order get the OrderID and Average quantity of items in that order
 
-```SELECT OrderID, AVG(Quantity) AS AvgQuantity
+```
+SELECT OrderID, AVG(Quantity) AS AvgQuantity
 
 FROM OrderDetails
 
@@ -150,13 +156,13 @@ GROUP BY OrderID;
 
 14. For each order get the orderID, minimum quantity and maximum quantity for that order
 
-```SELECT OrderID, MIN(Quantity) AS MinQuantity, MAX(Quantity) AS MaxQuantity
+```
+SELECT OrderID, MIN(Quantity) AS MinQuantity, MAX(Quantity) AS MaxQuantity
 
 FROM OrderDetails
 
-GROUP BY OrderID;```
-
-
+GROUP BY OrderID;
+```
 
 
 
@@ -202,6 +208,7 @@ WHERE ShipCountry = 'Canada';
 
 
 19. list of all orders with order total > 200
+    
 ```
 SELECT Orders.OrderID, SUM(OrderDetails.UnitPrice * OrderDetails.Quantity) AS TotalAmount
 
@@ -216,6 +223,7 @@ HAVING TotalAmount > 200;
 
 
 20. List of countries and sales made in each country
+
 ```
 SELECT ShipCountry, SUM(OrderDetails.UnitPrice * OrderDetails.Quantity) AS TotalSales
 
@@ -228,6 +236,7 @@ GROUP BY ShipCountry;
 
 
 21. List of Customer ContactName and number of orders they placed
+
 ```
 SELECT Customers.ContactName, COUNT(Orders.OrderID) AS NumberOfOrders
 
@@ -240,6 +249,7 @@ GROUP BY Customers.ContactName;
 
 
 22. List of customer contactnames who have placed more than 3 orders
+
 ```
 SELECT Customers.ContactName
 
@@ -254,6 +264,7 @@ HAVING COUNT(Orders.OrderID) > 3;
 
 
 23. List of discontinued products which were ordered between 1/1/1997 and 1/1/1998
+
 ```
 SELECT DISTINCT Products.*
 
@@ -270,6 +281,7 @@ WHERE Products.Discontinued = 1
 
 
 24. List of employee firsname, lastName, superviser FirstName, LastName
+
 ```
 SELECT e.FirstName AS EmployeeFirstName, e.LastName AS EmployeeLastName,
 
@@ -282,6 +294,7 @@ LEFT JOIN Employees s ON e.ManagerID = s.EmployeeID;
 
 
 25. List of Employees id and total sale condcuted by employee
+
 ```
 SELECT Orders.EmployeeID, SUM(OrderDetails.UnitPrice * OrderDetails.Quantity) AS TotalSales
 
@@ -294,6 +307,7 @@ GROUP BY Orders.EmployeeID;
 
 
 26. list of employees whose FirstName contains character a
+
 ```
 SELECT * FROM Employees
 
@@ -315,6 +329,7 @@ HAVING COUNT(*) > 4;
 
 
 28. List of Orders and ProductNames29. List of orders place by the best customer
+
 ```
 SELECT Orders.OrderID, Products.ProductName
 
@@ -340,6 +355,7 @@ WHERE Customers.Fax IS NULL;
 
 
 31. List of Postal codes where the product Tofu was shipped
+
 ```
 SELECT DISTINCT Orders.ShipPostalCode
 
@@ -354,6 +370,7 @@ WHERE Products.ProductName = 'Tofu';
 
 
 32. List of product Names that were shipped to France
+
 ```
 SELECT DISTINCT Products.ProductName
 
@@ -368,6 +385,7 @@ WHERE Orders.ShipCountry = 'France';
 
 
 33. List of ProductNames and Categories for the supplier 'Specialty Biscuits, Ltd.
+
 ```
 SELECT Products.ProductName, Categories.CategoryName
 
@@ -382,6 +400,7 @@ WHERE Suppliers.CompanyName = 'Specialty Biscuits, Ltd.';
 
 
 34. List of products that were never ordered
+
 ```
 SELECT * FROM Products
 
@@ -390,6 +409,7 @@ WHERE ProductID NOT IN (SELECT DISTINCT ProductID FROM OrderDetails);
 
 
 35. List of products where units in stock is less than 10 and units on order are 0.
+
 ```
 SELECT * FROM Products
 
@@ -398,6 +418,7 @@ WHERE UnitsInStock < 10 AND UnitsOnOrder = 0;
 
 
 36. List of top 10 countries by sales
+
 ```
 SELECT ShipCountry, SUM(OrderDetails.UnitPrice * OrderDetails.Quantity) AS TotalSales
 
@@ -414,6 +435,7 @@ LIMIT 10;
 
 
 37. Number of orders each employee has taken for customers with CustomerIDs between A and AO
+
 ```
 SELECT Orders.EmployeeID, COUNT(*) AS NumberOfOrders
 
@@ -428,6 +450,7 @@ GROUP BY Orders.EmployeeID;
 
 
 38. Orderdate of most expensive order
+
 ```
 SELECT Orders.OrderDate
 
@@ -443,6 +466,7 @@ LIMIT 1;
 ```
 
 39. Product name and total revenue from that product
+
 ```
 SELECT Products.ProductName, SUM(OrderDetails.UnitPrice * OrderDetails.Quantity) AS TotalRevenue
 
@@ -455,6 +479,7 @@ GROUP BY Products.ProductName;
 
 
 40. Supplierid and number of products offered
+
 ```
 SELECT SupplierID, COUNT(*) AS NumberOfProducts
 
@@ -484,6 +509,7 @@ LIMIT 10;
 
 
 42. What is the total revenue of the company.
+
 ```
 SELECT SUM(OrderDetails.UnitPrice * OrderDetails.Quantity) AS TotalRevenue
 
@@ -493,7 +519,7 @@ FROM OrderDetails;
 <hr></hr>
 <strong>Level B Task</strong>
 
--- procedures
+**-- procedures**
 -----------------------
 
 -- Create a procedure InsertOrderDetails that takes OrderID, ProductID, UnitPrice, Quantiy, Discount as input parameters and inserts that order information in the Order Details table. 
@@ -628,7 +654,7 @@ END
 ```
 
 
--- Functions
+**-- Functions**
 -----------------
 
 -- Review SQL Server date formats on this website and then create following functions
@@ -659,7 +685,7 @@ BEGIN
 END
 ```
 
--- Views
+**-- Views**
 ------------------
 
 -- Create a view vwCustomerOrders which returns CompanyName OrderID.OrderDate, ProductID ProductName Quantity UnitPrice.Quantity od. UnitPrice
@@ -692,7 +718,7 @@ FROM Products p LEFT JOIN Suppliers s ON p.SupplierID = s.SupplierID LEFT JOIN C
 
 
 
--- Triggers
+**-- Triggers**
 -------------------
 
 -- If someone cancels an order in northwind database, then you want to delete that order from the Orders table. But you will not be able to delete that Order before deleting the records 
