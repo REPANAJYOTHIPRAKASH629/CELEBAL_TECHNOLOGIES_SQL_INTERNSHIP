@@ -8,42 +8,54 @@ R. JYOTHI PRAKASH
 
 1. List of all customers
 
-```SELECT * FROM Customers;```
+```
+SELECT * FROM Customers;
+```
 
 
 2. list of all customers where company name ending in N
 
-```SELECT * FROM Customers
+```
+SELECT * FROM Customers
 
-WHERE CompanyName LIKE '%N';```
+WHERE CompanyName LIKE '%N';
+```
 
 
 3. list of all customers who live in Berlin or London
 
-```SELECT * FROM Customers
+```
+SELECT * FROM Customers
 
-WHERE City IN ('Berlin', 'London');```
+WHERE City IN ('Berlin', 'London');
+```
 
 
 4. list of all customers who live in UK or USA
 
-```SELECT * FROM Customers
+```
+SELECT * FROM Customers
 
-WHERE Country IN ('UK', 'USA');```
+WHERE Country IN ('UK', 'USA');
+```
 
 
 5. list of all products sorted by product name
 
-```SELECT * FROM Products
+```
+SELECT * FROM Products
 
-ORDER BY ProductName;```
+ORDER BY ProductName;
+```
 
 
 6. list of all products where product name starts with an A
 
-```SELECT * FROM Products
+```
+SELECT * FROM Products
 
-WHERE ProductName LIKE 'A%';```
+WHERE ProductName LIKE 'A%';
+```
 
 
 
