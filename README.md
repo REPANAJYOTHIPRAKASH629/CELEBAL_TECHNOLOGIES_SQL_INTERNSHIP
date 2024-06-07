@@ -1,10 +1,14 @@
 # CELEBAL_TECHNOLOGIES_SQL_INTERNS
 
-<strong>Level A Task</strong>
+
 
 CT_CSI_SQ_771
+
+
 R. JYOTHI PRAKASH
 
+<strong>Level A Task</strong>
+<a href="https://drive.google.com/drive/folders/1gSw4fSrErWiq0b87hp80N7e5UKzFRn5E"> Level A Tasks List </a>
 
 1. List of all customers
 
@@ -521,6 +525,8 @@ FROM OrderDetails;
 
 **-- Level B Task**
 
+<a href="https://drive.google.com/drive/folders/1vVu5QRmjdIh3_0zTZ6t0-iaLO_0F2qwW">Level B Task list</a>
+
 **-- procedures**
 -----------------------
 
@@ -750,7 +756,9 @@ END;
 ```
 
 
-<strong> Level C Task </strong>
+<strong>Level C Task </strong>
+
+<a href="https://drive.google.com/drive/folders/1-JidEeh6NSOpeq0_akwuYx-wo4bN-dTT">Level C Task list</a>
 
 <strong> Task 1 </strong>
 
