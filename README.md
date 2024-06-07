@@ -748,3 +748,86 @@ BEGIN
         ROLLBACK TRANSACTION;
 END;
 ```
+
+
+<strong> Level C Task </strong>
+
+<strong> Task 1 </strong>
+
+```
+WITH ProjectGroups AS (
+    SELECT
+        Task_ID,
+        Start_Date,
+        End_Date,
+        ROW_NUMBER() OVER (ORDER BY Start_Date) - 
+        ROW_NUMBER() OVER (PARTITION BY DATEADD(day, -ROW_NUMBER() OVER (ORDER BY Start_Date), Start_Date) ORDER BY Start_Date) AS Project_ID
+    FROM Projects
+)
+SELECT 
+    MIN(Start_Date) AS Start_Date,
+    MAX(End_Date) AS End_Date,
+    DATEDIFF(day, MIN(Start_Date), MAX(End_Date)) + 1 AS Duration
+FROM ProjectGroups
+GROUP BY Project_ID
+ORDER BY Duration, MIN(Start_Date);
+```
+
+<strong> Task 2 </strong>
+
+```
+SELECT
+    s1.Nome AS Student_Name,
+    s2.Nome AS Best_Friend_Name,
+    p2.Salary AS Best_Friend_Salary
+FROM
+    Students s1
+JOIN
+    Friends f ON s1.ID = f.ID
+JOIN
+    Students s2 ON f.Friend_ID = s2.ID
+JOIN
+    Packages p1 ON s1.ID = p1.ID
+JOIN
+    Packages p2 ON s2.ID = p2.ID
+WHERE
+    p2.Salary > p1.Salary
+ORDER BY
+    p2.Salary;
+```
+
+<strong> Task 3 </strong>
+
+<strong> Task 4 </strong>
+
+<strong> Task 5 </strong>
+
+<strong> Task 6 </strong>
+
+<strong> Task 7 </strong>
+
+<strong> Task 8 </strong>
+
+<strong> Task 9 </strong>
+
+<strong> Task 10 </strong>
+
+<strong> Task 11 </strong>
+
+<strong> Task 12 </strong>
+
+<strong> Task 13 </strong>
+
+<strong> Task 14 </strong>
+
+<strong> Task 15 </strong>
+
+<strong> Task 16 </strong>
+
+<strong> Task 17 </strong>
+
+<strong> Task 18 </strong>
+
+<strong> Task 19 </strong>
+
+<strong> Task 20 </strong>
