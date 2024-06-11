@@ -8,6 +8,7 @@ CT_CSI_SQ_771
 R. JYOTHI PRAKASH
 
 <strong>Level A Task</strong>
+<br>
 <a href="https://drive.google.com/drive/folders/1gSw4fSrErWiq0b87hp80N7e5UKzFRn5E"> Level A Tasks List </a>
 
 1. List of all customers
@@ -1135,4 +1136,141 @@ FROM YourTable;
 INSERT INTO DestinationTable (Column1, Column2, ...)
 SELECT Column1, Column2, ...
 FROM SourceTable;
+```
+
+
+**-- Level D Task**
+
+<a href="https://drive.google.com/drive/folders/1CGNQs2YfOskCZJ_5VaNzIkViCqDGxgrY">Level D Task list</a>
+
+Task 
+
+Problem Statement: A college needs to develop a system to allocate Open Elective Subjects to its respective students. The way the system would work is that each student is allowed 5 choices with the respective preference, where number 1 indicates the first preference, number 2 indicates second preference and so on, the subjects are supposed to be allotted on the basis of the Student's GPA, which means the student with the students with the highest GPAs are allotted the subject they want. Every subject has a limited number of seats so if a subject has 60 seats and all of them are filled then the student would not be allotted his first preference but instead second would be checked, if the second preference is full as well then the third preference would be checked, this process would be repeated till the student is allotted a subject of his/her choice. If in case all the preferences that the student has selected are already full, then the student would be considered as unallotted and would be marked so
+
+For example, Mohit has filled his 5 choices with the respective preferences and they are as following
+
+The below table has the subject to student mapping with the preference
+
+Note: Studentid and Subjectid are foreign keys in this table.
+
+Constraints: A single Student cannot select the same subject twice.
+
+Your Task is to write a Stored Procedure to assign all the students to a respective subject according the abo stated workflow.
+
+
+```
+-- Create StudentDetails table
+CREATE TABLE StudentDetails (
+    Studentid INT PRIMARY KEY,
+    StudentName VARCHAR(255),
+    GPA FLOAT,
+    BranchSection CHAR(1)
+);
+
+-- Create SubjectDetails table
+CREATE TABLE SubjectDetails (
+    Subjectid INT PRIMARY KEY,
+    SubjectName VARCHAR(255),
+    MaxSeats INT,
+    RemainingSeats INT
+);
+
+-- Create StudentPreference table
+CREATE TABLE StudentPreference (
+    Studentid INT,
+    Subjectid INT,
+    Preference INT,
+    FOREIGN KEY (Studentid) REFERENCES StudentDetails(Studentid),
+    FOREIGN KEY (Subjectid) REFERENCES SubjectDetails(Subjectid),
+    PRIMARY KEY (Studentid, Subjectid)
+);
+
+-- Create Allotments table
+CREATE TABLE Allotments (
+    Subjectid INT,
+    Studentid INT,
+    FOREIGN KEY (Subjectid) REFERENCES SubjectDetails(Subjectid),
+    FOREIGN KEY (Studentid) REFERENCES StudentDetails(Studentid),
+    PRIMARY KEY (Subjectid, Studentid)
+);
+
+-- Create UnallotedStudents table
+CREATE TABLE UnallotedStudents (
+    Studentid INT PRIMARY KEY,
+    FOREIGN KEY (Studentid) REFERENCES StudentDetails(Studentid)
+);
+
+-- Create stored procedure AllocateSubjects
+DELIMITER $$
+CREATE PROCEDURE AllocateSubjects()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE student_id, subject_id, preference INT;
+    DECLARE gpa FLOAT;
+    DECLARE subject_remaining_seats INT;
+    DECLARE cur CURSOR FOR SELECT Studentid, Subjectid, Preference FROM StudentPreference ORDER BY Studentid, Preference;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    -- Open the cursor
+    OPEN cur;
+
+    -- Loop through each student's preferences
+    allocate_loop: LOOP
+        FETCH cur INTO student_id, subject_id, preference;
+        IF done THEN
+            LEAVE allocate_loop;
+        END IF;
+        
+        -- Get the student's GPA
+        SELECT GPA INTO gpa FROM StudentDetails WHERE Studentid = student_id;
+        
+        -- Check if the student has already been allotted a subject
+        IF NOT EXISTS (SELECT * FROM Allotments WHERE Studentid = student_id) THEN
+            -- Get the remaining seats for the subject
+            SELECT RemainingSeats INTO subject_remaining_seats FROM SubjectDetails WHERE Subjectid = subject_id;
+            
+            -- Check if there are available seats for the subject
+            IF subject_remaining_seats > 0 THEN
+                -- Allocate the subject to the student
+                INSERT INTO Allotments (Subjectid, Studentid) VALUES (subject_id, student_id);
+                -- Decrease the remaining seats for the subject
+                UPDATE SubjectDetails SET RemainingSeats = RemainingSeats - 1 WHERE Subjectid = subject_id;
+            ELSE
+                -- Subject is full, try next preference
+                CONTINUE;
+            END IF;
+        END IF;
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE cur;
+END$$
+DELIMITER ;
+
+-- Example data insertion
+INSERT INTO StudentDetails (Studentid, StudentName, GPA, BranchSection) VALUES
+(159103036, 'Mohit Agarwal', 8.9, 'CCE'),
+(159103037, 'Rohit Agarwal', 5.2, 'CCE'),
+(159103038, 'Shohit Garg', 7.1, 'CCE'),
+(159103039, 'Mrinal Malhotra', 7.9, 'CCE'),
+(159103040, 'Mehreet Singh', 5.6, 'CCE'),
+(159103041, 'Arjun Tehlan', 9.2, 'CCE');
+
+INSERT INTO SubjectDetails (Subjectid, SubjectName, MaxSeats, RemainingSeats) VALUES
+('PO1491', 'Basics of Political Science', 60, 2),
+('PO1492', 'Basics of Accounting', 120, 119),
+('PO1493', 'Basics of Financial Markets', 90, 90),
+('PO1494', 'Eco philosophy', 60, 50),
+('PO1495', 'Automotive Trends', 60, 60);
+
+INSERT INTO StudentPreference (Studentid, Subjectid, Preference) VALUES
+(159103036, 'PO1491', 1),
+(159103036, 'PO1492', 2),
+(159103036, 'PO1493', 3),
+(159103036, 'PO1494', 4),
+(159103036, 'PO1495', 5);
+
+-- Call the stored procedure to allocate subjects
+CALL AllocateSubjects();
+
 ```
